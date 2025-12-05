@@ -1,0 +1,65 @@
+[site]
+title = "Cheng Yang (杨承)"
+brand = "ImYangC7"
+description = "Undergraduate student at Hangzhou Dianzi University."
+favicon = "/favicon.svg"
+last_updated = "December 5, 2025"
+
+[author]
+name = "Cheng Yang"
+title = "Undergraduate Student"
+institution = "Hangzhou Dianzi University"
+avatar = "/yc.jpg"
+
+[social]
+# Contact information (leave blank or delete to hide)
+
+email = "23320214@hdu.edu.cn"
+google_scholar = "https://scholar.google.com/citations?user=y7xaiIgAAAAJ&hl=en"
+orcid = "https://orcid.org/0009-0009-0947-656X"
+github = "https://github.com/ImYangC7"
+xiaohongshu = "https://www.xiaohongshu.com/user/profile/6554427a0000000008001276" 
+wechat = "https://raw.githubusercontent.com/ImYangC7/Repo-recorder/main/generated/wechat_yc.png"  
+
+[features]
+# Show a like button on the about page
+enable_likes = true
+
+# Display all subpages on a single page
+enable_one_page_mode = false
+
+[[navigation]]
+title = "About"
+type = "page"
+target = "about"
+href = "/"
+
+[[navigation]]
+title = "Publications"
+type = "page"
+target = "publications"
+href = "/publications"
+
+[[navigation]]
+title = "Teaching"
+type = "page"
+target = "teaching"
+href = "/teaching"
+
+[[navigation]]
+title = "Awards"
+type = "page"
+target = "awards"
+href = "/awards"
+
+[[navigation]]
+title = "Services"
+type = "page"
+target = "services"
+href = "/services"
+
+[[navigation]]
+title = "CV"
+type = "page"
+target = "cv"
+href = "/cv"
