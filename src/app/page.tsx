@@ -56,7 +56,7 @@ export default function Home() {
             : allPubs;
           return {
             ...section,
-            publications: filteredPubs.slice(0, section.limit || 5)
+            publications: section.limit ? filteredPubs.slice(0, section.limit) : filteredPubs
           };
         }
         case 'list': {
