@@ -28,6 +28,7 @@ export default function PublicationsList({ config, publications, embedded = fals
     const [showFilters, setShowFilters] = useState(false);
     const [expandedBibtexId, setExpandedBibtexId] = useState<string | null>(null);
     const [expandedAbstractId, setExpandedAbstractId] = useState<string | null>(null);
+    const [lightboxImage, setLightboxImage] = useState<string | null>(null);
 
     // Extract unique years and types for filters
     const years = useMemo(() => {
@@ -198,14 +199,25 @@ export default function PublicationsList({ config, publications, embedded = fals
                         >
                             <div className="flex flex-col md:flex-row gap-6">
                                 {pub.preview && (
-                                    <div className="w-full md:w-48 flex-shrink-0">
-                                        <div className="aspect-video md:aspect-[4/3] relative rounded-lg overflow-hidden bg-neutral-100 dark:bg-neutral-800">
+                                    <div className="w-full md:w-52 flex-shrink-0">
+                                        <div
+                                            className="relative p-1 rounded-lg bg-white dark:bg-neutral-700 shadow-md hover:shadow-xl transition-shadow duration-300 ring-1 ring-neutral-200 dark:ring-neutral-600 cursor-zoom-in"
+                                            onClick={() => setLightboxImage(`/papers/${pub.preview}`)}
+                                        >
+                                            {pub.venue && (
+                                                <span
+                                                    className="absolute top-0 left-0 z-10 px-2 py-1 text-xs font-bold text-white bg-blue-900 rounded-br-md shadow-md"
+                                                    style={{ fontFamily: 'Arial, sans-serif' }}
+                                                >
+                                                    {pub.venue}
+                                                </span>
+                                            )}
                                             <Image
                                                 src={`/papers/${pub.preview}`}
                                                 alt={pub.title}
-                                                fill
-                                                className="object-cover"
-                                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                                width={300}
+                                                height={200}
+                                                className="w-full h-auto rounded hover:scale-105 transition-transform duration-300"
                                             />
                                         </div>
                                     </div>
@@ -239,7 +251,7 @@ export default function PublicationsList({ config, publications, embedded = fals
                                         ))}
                                     </p>
                                     <p className="text-sm font-medium text-neutral-800 dark:text-neutral-600 mb-3">
-                                        {pub.journal || pub.conference} {pub.year}
+                                        {pub.journal || pub.conference}, {pub.year}
                                     </p>
 
                                     {pub.description && (
@@ -347,6 +359,42 @@ export default function PublicationsList({ config, publications, embedded = fals
                     ))
                 )}
             </div>
+
+            {/* Lightbox Modal */}
+            <AnimatePresence>
+                {lightboxImage && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm cursor-zoom-out"
+                        onClick={() => setLightboxImage(null)}
+                    >
+                        <motion.div
+                            initial={{ scale: 0.8, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.8, opacity: 0 }}
+                            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                            className="relative max-w-[90vw] max-h-[90vh] p-2 bg-white dark:bg-neutral-800 rounded-xl shadow-2xl"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <button
+                                className="absolute -top-3 -right-3 w-8 h-8 flex items-center justify-center bg-white dark:bg-neutral-700 rounded-full shadow-lg text-neutral-600 dark:text-neutral-300 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors"
+                                onClick={() => setLightboxImage(null)}
+                            >
+                                ✕
+                            </button>
+                            <Image
+                                src={lightboxImage}
+                                alt="Enlarged preview"
+                                width={1200}
+                                height={800}
+                                className="max-w-full max-h-[85vh] w-auto h-auto rounded-lg object-contain"
+                            />
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </motion.div>
     );
 }
