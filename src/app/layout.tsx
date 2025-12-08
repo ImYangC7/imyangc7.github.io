@@ -55,7 +55,7 @@ export default function RootLayout({
           id="gfonts-css"
           href="https://google-fonts.jialeliu.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap"
           media="print"
-          // @ts-ignore - suppress hydration warning for font loading technique
+          // @ts-expect-error - suppress hydration warning for font loading technique
           suppressHydrationWarning
         />
         <script
