@@ -5,6 +5,7 @@ import Profile from '@/components/home/Profile';
 import About from '@/components/home/About';
 import SelectedPublications from '@/components/home/SelectedPublications';
 import News, { NewsItem } from '@/components/home/News';
+import Awards, { AwardItem } from '@/components/home/Awards';
 import PublicationsList from '@/components/publications/PublicationsList';
 import TextPage from '@/components/pages/TextPage';
 import CardPage from '@/components/pages/CardPage';
@@ -15,7 +16,7 @@ import { BasePageConfig, PublicationPageConfig, TextPageConfig, CardPageConfig }
 // Define types for section config
 interface SectionConfig {
   id: string;
-  type: 'markdown' | 'publications' | 'list';
+  type: 'markdown' | 'publications' | 'list' | 'awards';
   title?: string;
   source?: string;
   filter?: string;
@@ -23,6 +24,7 @@ interface SectionConfig {
   content?: string;
   publications?: Publication[];
   items?: NewsItem[];
+  awards?: AwardItem[];
 }
 
 type PageData =
@@ -64,6 +66,13 @@ export default function Home() {
           return {
             ...section,
             items: newsData?.news || []
+          };
+        }
+        case 'awards': {
+          const awardsData = section.source ? getTomlContent<{ items: AwardItem[] }>(section.source) : null;
+          return {
+            ...section,
+            awards: awardsData?.items || []
           };
         }
         default:
@@ -170,6 +179,14 @@ export default function Home() {
                       <News
                         key={section.id}
                         items={section.items || []}
+                        title={section.title}
+                      />
+                    );
+                  case 'awards':
+                    return (
+                      <Awards
+                        key={section.id}
+                        items={section.awards || []}
                         title={section.title}
                       />
                     );

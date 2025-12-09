@@ -26,3 +26,9 @@ type = "list"
 title = "News"
 source = "news.toml"
 
+[[sections]]
+id = "awards"
+type = "awards"
+title = "Awards"
+source = "awards.toml"
+
