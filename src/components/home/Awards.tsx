@@ -3,10 +3,9 @@
 import { motion } from 'framer-motion';
 
 export interface AwardItem {
-    title: string;
-    subtitle?: string;
     date: string;
-    content?: string;
+    awards: string[];  // Array of award names
+    suffix?: string;   // Optional text after awards (e.g., "in the 6th Youth of HDU program")
 }
 
 interface AwardsProps {
@@ -22,22 +21,22 @@ export default function Awards({ items, title = 'Awards' }: AwardsProps) {
             transition={{ duration: 0.6, delay: 0.6 }}
         >
             <h2 className="text-2xl font-serif font-bold text-primary mb-4">{title}</h2>
-            <div className="space-y-3">
+            <ul className="list-disc list-outside ml-4 space-y-2">
                 {items.map((item, index) => (
-                    <div key={index} className="flex items-start space-x-3">
-                        <span className="text-xs text-neutral-500 mt-1 w-16 flex-shrink-0">{item.date}</span>
-                        <div className="text-sm text-neutral-700 dark:text-neutral-400">
-                            <span className="font-medium">{item.title}</span>
-                            {item.subtitle && (
-                                <span className="text-neutral-500"> · {item.subtitle}</span>
-                            )}
-                            {item.content && (
-                                <p className="mt-0.5 text-neutral-500">{item.content}</p>
-                            )}
-                        </div>
-                    </div>
+                    <li key={index} className="text-sm text-neutral-700 dark:text-neutral-400">
+                        <span className="italic text-neutral-500">{item.date}</span>
+                        <span>, </span>
+                        {item.awards.map((award, awardIndex) => (
+                            <span key={awardIndex}>
+                                {awardIndex > 0 && <span> and </span>}
+                                <span className="font-bold">{award}</span>
+                            </span>
+                        ))}
+                        {item.suffix && <span> {item.suffix}</span>}
+                        <span>.</span>
+                    </li>
                 ))}
-            </div>
+            </ul>
         </motion.section>
     );
 }

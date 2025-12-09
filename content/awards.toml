@@ -3,25 +3,11 @@ title = "Awards"
 description = "Honors and awards I have received."
 
 [[items]]
-title = "Example Award"
-subtitle = "Organization"
-date = "2025"
-content = "Description of the award."
+date = "2024-2025 Academic Year"
+awards = ["University First-Class Scholarships", "Zhejiang Provincial Government Scholarship"]
+suffix = "twice"
 
 [[items]]
-title = "Example Award"
-subtitle = "Organization"
-date = "2024"
-content = "Description of the award."
-
-[[items]]
-title = "Example Award"
-subtitle = "Organization"
-date = "2023"
-content = "Description of the award."
-
-[[items]]
-title = "Example Award"
-subtitle = "Organization"
-date = "2022"
-content = "Description of the award."
+date = "2023-2024 Academic Year"
+awards = ["University First-Class Scholarships", "Zhejiang Provincial Government Scholarship"]
+suffix = "twice"
