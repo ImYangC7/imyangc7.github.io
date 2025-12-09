@@ -6,6 +6,7 @@ import About from '@/components/home/About';
 import SelectedPublications from '@/components/home/SelectedPublications';
 import News, { NewsItem } from '@/components/home/News';
 import Awards, { AwardItem } from '@/components/home/Awards';
+import Competitions, { CompetitionItem } from '@/components/home/Competitions';
 import PublicationsList from '@/components/publications/PublicationsList';
 import TextPage from '@/components/pages/TextPage';
 import CardPage from '@/components/pages/CardPage';
@@ -16,7 +17,7 @@ import { BasePageConfig, PublicationPageConfig, TextPageConfig, CardPageConfig }
 // Define types for section config
 interface SectionConfig {
   id: string;
-  type: 'markdown' | 'publications' | 'list' | 'awards';
+  type: 'markdown' | 'publications' | 'list' | 'awards' | 'competitions';
   title?: string;
   source?: string;
   filter?: string;
@@ -25,6 +26,7 @@ interface SectionConfig {
   publications?: Publication[];
   items?: NewsItem[];
   awards?: AwardItem[];
+  competitions?: { national: CompetitionItem[]; provincial: CompetitionItem[] };
 }
 
 type PageData =
@@ -73,6 +75,16 @@ export default function Home() {
           return {
             ...section,
             awards: awardsData?.items || []
+          };
+        }
+        case 'competitions': {
+          const competitionsData = section.source ? getTomlContent<{ national: CompetitionItem[]; provincial: CompetitionItem[] }>(section.source) : null;
+          return {
+            ...section,
+            competitions: {
+              national: competitionsData?.national || [],
+              provincial: competitionsData?.provincial || []
+            }
           };
         }
         default:
@@ -187,6 +199,15 @@ export default function Home() {
                       <Awards
                         key={section.id}
                         items={section.awards || []}
+                        title={section.title}
+                      />
+                    );
+                  case 'competitions':
+                    return (
+                      <Competitions
+                        key={section.id}
+                        national={section.competitions?.national || []}
+                        provincial={section.competitions?.provincial || []}
                         title={section.title}
                       />
                     );
