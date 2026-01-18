@@ -4,18 +4,20 @@ description = "Professional services and community involvement."
 
 [[items]]
 title = "Reviewer"
+subtitle = "IEEE International Conference on Acoustics, Speech, and Signal Processing (ICASSP)"
+date = "2025"
+
+[[items]]
+title = "Reviewer"
 subtitle = "IEEE International Symposium on Biomedical Imaging (ISBI)"
 date = "2025"
-content = "Reviewed papers for..."
 
 [[items]]
 title = "Reviewer"
 subtitle = "Proceedings of the AAAI Conference on Artificial Intelligence (AAAI)"
 date = "2025"
-content = "Reviewed papers for..."
 
 [[items]]
 title = "Reviewer"
 subtitle = "International Conference on Medical Image Computing and Computer-Assisted Intervention (MICCAI)"
 date = "2025"
-content = "Reviewed papers for..."
