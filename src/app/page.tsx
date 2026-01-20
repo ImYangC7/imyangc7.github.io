@@ -7,6 +7,7 @@ import SelectedPublications from '@/components/home/SelectedPublications';
 import News, { NewsItem } from '@/components/home/News';
 import Awards, { AwardItem } from '@/components/home/Awards';
 import Competitions, { CompetitionItem } from '@/components/home/Competitions';
+import VisitorMap from '@/components/home/VisitorMap';
 import PublicationsList from '@/components/publications/PublicationsList';
 import TextPage from '@/components/pages/TextPage';
 import CardPage from '@/components/pages/CardPage';
@@ -238,6 +239,10 @@ export default function Home() {
             </section>
           ))}
         </div>
+      </div>
+
+      <div className="mt-12">
+        <VisitorMap />
       </div>
     </div>
   );
