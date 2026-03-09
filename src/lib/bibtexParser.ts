@@ -103,6 +103,13 @@ export function parseBibTeX(bibtexContent: string): Publication[] {
 
     return publication;
   }).sort((a: Publication, b: Publication) => {
+    // Prioritize papers where the site owner is the first author.
+    const aIsFirstAuthor = isOwnerFirstAuthor(a, authorName);
+    const bIsFirstAuthor = isOwnerFirstAuthor(b, authorName);
+    if (aIsFirstAuthor !== bIsFirstAuthor) {
+      return bIsFirstAuthor ? 1 : -1;
+    }
+
     // Sort by year (descending), then by month if available
     if (b.year !== a.year) return b.year - a.year;
 
@@ -117,6 +124,47 @@ export function parseBibTeX(bibtexContent: string): Publication[] {
     // Sort by month descending (December to January)
     return monthB - monthA;
   });
+}
+
+function isOwnerFirstAuthor(publication: Publication, ownerName: string): boolean {
+  const firstAuthor = publication.authors[0]?.name;
+  if (!firstAuthor || !ownerName) return false;
+  return isSamePerson(firstAuthor, ownerName);
+}
+
+function isSamePerson(nameA: string, nameB: string): boolean {
+  const tokensA = tokenizeName(nameA);
+  const tokensB = tokenizeName(nameB);
+  if (tokensA.length === 0 || tokensB.length === 0) return false;
+
+  const normalizedA = tokensA.join(' ');
+  const normalizedB = tokensB.join(' ');
+  if (normalizedA === normalizedB) return true;
+
+  if (tokensA.length < 2 || tokensB.length < 2) return false;
+  const [firstA, lastA] = [tokensA[0], tokensA[tokensA.length - 1]];
+  const [firstB, lastB] = [tokensB[0], tokensB[tokensB.length - 1]];
+
+  const directMatch = sameNameToken(firstA, firstB) && sameNameToken(lastA, lastB);
+  const reversedMatch = sameNameToken(firstA, lastB) && sameNameToken(lastA, firstB);
+  return directMatch || reversedMatch;
+}
+
+function tokenizeName(name: string): string[] {
+  return name
+    .toLowerCase()
+    .replace(/[.,]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .split(' ')
+    .filter(Boolean);
+}
+
+function sameNameToken(tokenA: string, tokenB: string): boolean {
+  if (tokenA === tokenB) return true;
+  if (tokenA.length === 1 && tokenB.length > 1) return tokenA === tokenB[0];
+  if (tokenB.length === 1 && tokenA.length > 1) return tokenB === tokenA[0];
+  return false;
 }
 
 function parseAuthors(authorsStr: string, highlightName?: string): Array<{ name: string; isHighlighted?: boolean; isCorresponding?: boolean; isCoAuthor?: boolean }> {
