@@ -2,4 +2,4 @@ I’m currently a undergraduate student at [Hangzhou Dianzi University](https://
 
 Currently, I’m working as a research intern at [MetaGPT](https://www.deepwisdom.ai/).
 
-My current research focuses on visual world models and AI scientists.
+My current research focuses on agentic systems and environment construction.
