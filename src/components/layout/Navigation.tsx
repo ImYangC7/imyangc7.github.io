@@ -7,7 +7,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Disclosure } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { cn } from '@/lib/utils';
-import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { SiteConfig } from '@/lib/config';
 
 interface NavigationProps {
@@ -82,10 +81,7 @@ export default function Navigation({ items, siteTitle, enableOnePageMode }: Navi
     <Disclosure as="nav" className="fixed top-0 left-0 right-0 z-50">
       {({ open }) => (
         <>
-          <motion.div
-            initial={{ y: -100 }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.6 }}
+          <div
             className={cn(
               'transition-all duration-300 ease-out',
               scrolled
@@ -154,14 +150,12 @@ export default function Navigation({ items, siteTitle, enableOnePageMode }: Navi
                         );
                       })}
                     </div>
-                    <ThemeToggle />
                   </div>
                 </div>
 
-                {/* Mobile menu button and theme toggle */}
+                {/* Mobile menu button */}
                 <div className="lg:hidden flex items-center space-x-2">
-                  <ThemeToggle />
-                  <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-neutral-600 hover:text-primary hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-accent transition-colors duration-200">
+                  <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-neutral-600 hover:text-primary hover:bg-neutral-100 :bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-accent transition-colors duration-200">
                     <span className="sr-only">Open main menu</span>
                     <motion.div
                       animate={{ rotate: open ? 180 : 0 }}
@@ -177,7 +171,7 @@ export default function Navigation({ items, siteTitle, enableOnePageMode }: Navi
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Mobile Navigation Menu */}
           <AnimatePresence>

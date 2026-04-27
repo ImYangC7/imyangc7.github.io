@@ -1,11 +1,7 @@
 @import "tailwindcss";
 
-/* Explicitly set dark mode to use class strategy */
-@variant dark (&:where(.dark, .dark *));
-
-/* Default to light theme colors - no system preference detection */
-:root,
-.light {
+/* Light theme only */
+:root {
   /* Light theme colors */
   --background: #fefffe;
   --foreground: #0f172a;
@@ -128,38 +124,6 @@
   --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
 }
 
-/* Dark mode styles */
-.dark {
-  --background: #0f172a;
-  --foreground: #f8fafc;
-  
-  /* Adjust colors for dark mode */
-  --primary: #f8fafc;
-  --primary-light: #e2e8f0;
-  --primary-dark: #cbd5e1;
-  --accent: #e4b976;
-  --accent-light: #f0c674;
-  --accent-dark: #d4a562;
-  
-  /* Dark mode glass effect */
-  --glass-bg: rgba(15, 23, 42, 0.8);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-shadow: rgba(0, 0, 0, 0.5);
-  
-  /* Neutral colors for dark mode - properly inverted */
-  --neutral-50: #0f172a;
-  --neutral-100: #1e293b;
-  --neutral-200: #334155;
-  --neutral-300: #475569;
-  --neutral-400: #64748b;
-  --neutral-500: #94a3b8;
-  --neutral-600: #cbd5e1;
-  --neutral-700: #e2e8f0;
-  --neutral-800: #1e293b;
-  --neutral-900: #0f172a;
-}
-
-
 body {
   background: var(--background);
   color: var(--foreground);
@@ -177,6 +141,53 @@ body {
 
 .text-pretty {
   text-wrap: pretty;
+}
+
+/* Lightweight CSS fade-in (replaces framer-motion for non-interactive sections) */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in-up {
+  animation: fade-in-up 0.35s ease-out both;
+}
+
+.fade-in-up-d1 { animation: fade-in-up 0.35s 0.05s ease-out both; }
+.fade-in-up-d2 { animation: fade-in-up 0.35s 0.10s ease-out both; }
+.fade-in-up-d3 { animation: fade-in-up 0.35s 0.15s ease-out both; }
+
+/* Lightbox modal entrance */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes zoom-in {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.fade-in { animation: fade-in 0.2s ease-out both; }
+.zoom-in { animation: zoom-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+
+/* Smooth height collapse for accordion-style panels (no JS needed) */
+.collapse-grid {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease-out;
+}
+.collapse-grid.is-open { grid-template-rows: 1fr; }
+.collapse-grid > .collapse-inner { overflow: hidden; min-height: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in-up,
+  .fade-in-up-d1,
+  .fade-in-up-d2,
+  .fade-in-up-d3,
+  .fade-in,
+  .zoom-in { animation: none; }
+  .collapse-grid { transition: none; }
 }
 
 /* Glass morphism utilities */
@@ -216,26 +227,7 @@ body {
   background: var(--neutral-400);
 }
 
-/* Dark mode scrollbar */
-.dark ::-webkit-scrollbar-track {
-  background: var(--neutral-800);
-}
-
-.dark ::-webkit-scrollbar-thumb {
-  background: var(--neutral-600);
-}
-
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: var(--neutral-500);
-}
-
 /* Card background utility */
 .card-bg {
   background-color: #ffffff;
-}
-
-.dark .card-bg {
-  background-color: #1e293b;
-  /* Soften card borders in dark mode only */
-  border-color: rgba(148, 163, 184, 0.24);
 }

@@ -138,12 +138,7 @@ export default function Profile({ author, social, features, researchInterests }:
     ];
 
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="sticky top-8"
-        >
+        <div className="sticky top-8">
             {/* Profile Image */}
             <div className="w-64 h-64 mx-auto mb-6 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105">
                 <Image
@@ -189,7 +184,7 @@ export default function Profile({ author, social, features, researchInterests }:
                                     }}
                                     className={`p-1.5 transition-colors duration-200 ${isAddressPinned
                                         ? 'text-accent'
-                                        : 'text-neutral-600 dark:text-neutral-400 hover:text-accent'
+                                        : 'text-neutral-600 hover:text-accent'
                                         }`}
                                     aria-label={link.name}
                                 >
@@ -266,7 +261,7 @@ export default function Profile({ author, social, features, researchInterests }:
                                     }}
                                     className={`p-1.5 transition-colors duration-200 ${isEmailPinned
                                         ? 'text-accent'
-                                        : 'text-neutral-600 dark:text-neutral-400 hover:text-accent'
+                                        : 'text-neutral-600 hover:text-accent'
                                         }`}
                                     aria-label={link.name}
                                 >
@@ -327,7 +322,7 @@ export default function Profile({ author, social, features, researchInterests }:
                             href={link.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-1.5 text-neutral-600 dark:text-neutral-400 hover:text-accent transition-colors duration-200"
+                            className="p-1.5 text-neutral-600 hover:text-accent transition-colors duration-200"
                             aria-label={link.name}
                         >
                             {link.customIcon ? (
@@ -347,9 +342,9 @@ export default function Profile({ author, social, features, researchInterests }:
 
             {/* Research Interests */}
             {researchInterests && researchInterests.length > 0 && (
-                <div className="bg-neutral-100 dark:bg-neutral-800 rounded-lg p-4 mb-6 hover:shadow-lg transition-all duration-200 hover:scale-[1.02]">
+                <div className="bg-neutral-100 rounded-lg p-4 mb-6 hover:shadow-lg transition-all duration-200 hover:scale-[1.02]">
                     <h3 className="font-serif font-semibold text-primary mb-3">Research Interests</h3>
-                    <div className="space-y-2.5 text-base text-neutral-700 dark:text-neutral-400 font-serif">
+                    <div className="space-y-2.5 text-base text-neutral-700 font-serif">
                         {researchInterests.map((interest, index) => (
                             <div key={index} className="font-medium">{interest}</div>
                         ))}
@@ -385,8 +380,8 @@ export default function Profile({ author, social, features, researchInterests }:
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 ${hasLiked
-                                ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400'
-                                : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-500 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 cursor-pointer'
+                                ? 'bg-red-50 text-red-600 '
+                                : 'bg-neutral-100 text-neutral-700 hover:bg-red-50 :bg-red-900/20 hover:text-red-600 :text-red-400 cursor-pointer'
                                 }`}
                         >
                             {hasLiked ? (
@@ -414,6 +409,6 @@ export default function Profile({ author, social, features, researchInterests }:
                     </div>
                 </div>
             )}
-        </motion.div>
+        </div>
     );
 }

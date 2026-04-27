@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -L --max-time 30 -o public/wechat.png \"https://raw.githubusercontent.com/ImYangC7/Repo-recorder/main/generated/wechat_yc.png\")",
+      "Bash(curl --connect-timeout 2 -s -o /dev/null -w '%{http_code}' -x http://127.0.0.1:__TRACKED_VAR__ https://raw.githubusercontent.com)"
+    ]
+  }
+}

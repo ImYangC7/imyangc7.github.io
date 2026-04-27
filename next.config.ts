@@ -6,6 +6,13 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  experimental: {
+    optimizePackageImports: [
+      '@heroicons/react',
+      'lucide-react',
+      'framer-motion',
+    ],
+  },
   /* config options here */
   webpack: (config) => {
     config.module.rules.push({

@@ -38,7 +38,7 @@ export default function VisitorMap({ title = 'Visitor Map' }: { title?: string }
       <h2 className="text-2xl font-serif font-bold text-primary mb-4">{title}</h2>
       <div
         ref={containerRef}
-        className="w-full max-w-2xl rounded-xl border border-neutral-200 dark:border-neutral-700/60 bg-neutral-50 dark:bg-neutral-900 shadow-sm p-3"
+        className="w-full max-w-2xl rounded-xl border border-neutral-200 bg-neutral-50 shadow-sm p-3"
       />
     </motion.section>
   );
