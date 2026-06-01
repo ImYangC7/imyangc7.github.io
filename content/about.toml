@@ -32,9 +32,3 @@ type = "competitions"
 title = "Competitions"
 source = "competitions.toml"
 
-[[sections]]
-id = "awards"
-type = "awards"
-title = "Awards"
-source = "awards.toml"
-

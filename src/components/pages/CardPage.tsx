@@ -16,7 +16,7 @@ export default function CardPage({ config, embedded = false }: { config: CardPag
                 {config.items.map((item, index) => (
                     <div
                         key={index}
-                        className={`fade-in-up bg-white  ${embedded ? "p-4" : "p-6"} rounded-xl shadow-sm border border-neutral-200  hover:shadow-lg transition-all duration-200 hover:scale-[1.01]`}
+                        className={`fade-in-up bg-white  ${embedded ? "p-4" : "p-6"} rounded-xl shadow-sm border border-neutral-200  hover:shadow-lg transition-shadow duration-200`}
                         style={{ animationDelay: `${Math.min(0.04 * index, 0.16)}s` }}
                     >
                         <div className="flex justify-between items-start mb-2">

@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Disclosure } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { cn } from '@/lib/utils';
@@ -19,15 +18,39 @@ export default function Navigation({ items, siteTitle, enableOnePageMode }: Navi
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [activeHash, setActiveHash] = useState('');
+  const scrolledRef = useRef(false);
+  const navItems = useMemo(
+    () => items.filter((item) => !(item.type === 'page' && item.target === 'about' && item.href === '/')),
+    [items]
+  );
 
   useEffect(() => {
-    const handleScroll = () => {
-      const isScrolled = window.scrollY > 20;
-      setScrolled(isScrolled);
+    let rafId = 0;
+
+    const updateScrolledState = () => {
+      rafId = 0;
+      const nextScrolled = window.scrollY > 20;
+      if (scrolledRef.current !== nextScrolled) {
+        scrolledRef.current = nextScrolled;
+        setScrolled(nextScrolled);
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const handleScroll = () => {
+      if (rafId === 0) {
+        rafId = window.requestAnimationFrame(updateScrolledState);
+      }
+    };
+
+    updateScrolledState();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      if (rafId !== 0) {
+        window.cancelAnimationFrame(rafId);
+      }
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   useEffect(() => {
@@ -63,7 +86,7 @@ export default function Navigation({ items, siteTitle, enableOnePageMode }: Navi
       const observer = new IntersectionObserver(observerCallback, observerOptions);
 
       // Observe all sections
-      items.forEach(item => {
+      navItems.forEach(item => {
         if (item.type === 'page') {
           const element = document.getElementById(item.target);
           if (element) observer.observe(element);
@@ -75,7 +98,7 @@ export default function Navigation({ items, siteTitle, enableOnePageMode }: Navi
         observer.disconnect();
       };
     }
-  }, [enableOnePageMode, items]);
+  }, [enableOnePageMode, navItems]);
 
   return (
     <Disclosure as="nav" className="fixed top-0 left-0 right-0 z-50">
@@ -92,24 +115,21 @@ export default function Navigation({ items, siteTitle, enableOnePageMode }: Navi
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex justify-between items-center h-16 lg:h-20">
                 {/* Logo/Name */}
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex-shrink-0"
-                >
+                <div className="flex-shrink-0">
                   <Link
                     href="/"
                     className="text-xl lg:text-2xl font-serif font-semibold text-primary hover:text-accent transition-colors duration-200"
                   >
                     {siteTitle}
                   </Link>
-                </motion.div>
+                </div>
 
                 {/* Desktop Navigation */}
+                {navItems.length > 0 && (
                 <div className="hidden lg:block">
                   <div className="ml-10 flex items-center space-x-8">
                     <div className="flex items-baseline space-x-8">
-                      {items.map((item) => {
+                      {navItems.map((item) => {
                         const isActive = enableOnePageMode
                           ? activeHash === `#${item.target}` || (!activeHash && item.target === 'about')
                           : (item.href === '/'
@@ -135,15 +155,8 @@ export default function Navigation({ items, siteTitle, enableOnePageMode }: Navi
                           >
                             <span className="relative z-10">{item.title}</span>
                             {isActive && (
-                              <motion.div
-                                layoutId="activeTab"
+                              <span
                                 className="absolute inset-0 bg-accent/10 rounded-lg"
-                                initial={false}
-                                transition={{
-                                  type: 'spring',
-                                  stiffness: 500,
-                                  damping: 30
-                                }}
                               />
                             )}
                           </Link>
@@ -152,79 +165,62 @@ export default function Navigation({ items, siteTitle, enableOnePageMode }: Navi
                     </div>
                   </div>
                 </div>
+                )}
 
                 {/* Mobile menu button */}
+                {navItems.length > 0 && (
                 <div className="lg:hidden flex items-center space-x-2">
-                  <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-neutral-600 hover:text-primary hover:bg-neutral-100 :bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-accent transition-colors duration-200">
+                  <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-neutral-600 hover:text-primary hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-accent transition-colors duration-200">
                     <span className="sr-only">Open main menu</span>
-                    <motion.div
-                      animate={{ rotate: open ? 180 : 0 }}
-                      transition={{ duration: 0.2 }}
-                    >
+                    <span className={cn('transition-transform duration-200', open && 'rotate-180')}>
                       {open ? (
                         <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
                       ) : (
                         <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
                       )}
-                    </motion.div>
+                    </span>
                   </Disclosure.Button>
                 </div>
+                )}
               </div>
             </div>
           </div>
 
-          {/* Mobile Navigation Menu */}
-          <AnimatePresence>
-            {open && (
-              <Disclosure.Panel static>
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="lg:hidden bg-background/95 backdrop-blur-xl border-b border-neutral-200/50 shadow-lg"
-                >
-                  <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                    {items.map((item, index) => {
-                      const isActive = enableOnePageMode
-                        ? (item.href === '/' ? pathname === '/' && !activeHash : activeHash === `#${item.target}`)
-                        : (item.href === '/'
-                          ? pathname === '/'
-                          : pathname.startsWith(item.href));
+          {open && navItems.length > 0 && (
+            <Disclosure.Panel static className="lg:hidden bg-background/95 backdrop-blur-xl border-b border-neutral-200/50 shadow-lg">
+              <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                {navItems.map((item) => {
+                  const isActive = enableOnePageMode
+                    ? (item.href === '/' ? pathname === '/' && !activeHash : activeHash === `#${item.target}`)
+                    : (item.href === '/'
+                      ? pathname === '/'
+                      : pathname.startsWith(item.href));
 
-                      const href = enableOnePageMode
-                        ? (item.href === '/' ? '/' : `/#${item.target}`)
-                        : item.href;
+                  const href = enableOnePageMode
+                    ? (item.href === '/' ? '/' : `/#${item.target}`)
+                    : item.href;
 
-                      return (
-                        <motion.div
-                          key={item.title}
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: index * 0.1 }}
-                        >
-                          <Disclosure.Button
-                            as={Link}
-                            href={href}
-                            prefetch={true}
-                            onClick={() => enableOnePageMode && setActiveHash(item.href === '/' ? '' : `#${item.target}`)}
-                            className={cn(
-                              'block px-3 py-2 rounded-md text-base font-medium transition-all duration-200',
-                              isActive
-                                ? 'text-primary bg-accent/10 border-l-4 border-accent'
-                                : 'text-neutral-600 hover:text-primary hover:bg-neutral-50'
-                            )}
-                          >
-                            {item.title}
-                          </Disclosure.Button>
-                        </motion.div>
-                      );
-                    })}
-                  </div>
-                </motion.div>
-              </Disclosure.Panel>
-            )}
-          </AnimatePresence>
+                  return (
+                    <Disclosure.Button
+                      key={item.title}
+                      as={Link}
+                      href={href}
+                      prefetch={true}
+                      onClick={() => enableOnePageMode && setActiveHash(item.href === '/' ? '' : `#${item.target}`)}
+                      className={cn(
+                        'block px-3 py-2 rounded-md text-base font-medium transition-all duration-200',
+                        isActive
+                          ? 'text-primary bg-accent/10 border-l-4 border-accent'
+                          : 'text-neutral-600 hover:text-primary hover:bg-neutral-50'
+                      )}
+                    >
+                      {item.title}
+                    </Disclosure.Button>
+                  );
+                })}
+              </div>
+            </Disclosure.Panel>
+          )}
         </>
       )}
     </Disclosure>

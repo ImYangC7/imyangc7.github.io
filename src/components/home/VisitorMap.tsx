@@ -1,10 +1,9 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
 
 const MAP_SCRIPT_ID = 'mapmyvisitors';
-const MAP_SCRIPT_SRC = '//mapmyvisitors.com/map.js?d=EeGT-Tlz_HMIXRAKprJ0fN3DlkZE1zzRVnUGhVyP9F4&cl=ffffff&w=a';
+const MAP_SCRIPT_SRC = 'https://mapmyvisitors.com/map.js?d=EeGT-Tlz_HMIXRAKprJ0fN3DlkZE1zzRVnUGhVyP9F4&cl=ffffff&w=a';
 
 export default function VisitorMap({ title = 'Visitor Map' }: { title?: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -12,7 +11,6 @@ export default function VisitorMap({ title = 'Visitor Map' }: { title?: string }
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-
     if (container.querySelector(`#${MAP_SCRIPT_ID}`)) return;
 
     const script = document.createElement('script');
@@ -29,17 +27,12 @@ export default function VisitorMap({ title = 'Visitor Map' }: { title?: string }
   }, []);
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.7 }}
-      className="flex flex-col items-center"
-    >
-      <h2 className="text-2xl font-serif font-bold text-primary mb-4">{title}</h2>
+    <section className="fade-in-up mb-6 w-full">
+      <h2 className="text-sm font-semibold text-primary mb-2">{title}</h2>
       <div
         ref={containerRef}
-        className="w-full max-w-2xl rounded-xl border border-neutral-200 bg-neutral-50 shadow-sm p-3"
+        className="flex aspect-[3/2] w-full items-center justify-center overflow-hidden rounded-lg border border-neutral-200 bg-neutral-50 p-2 shadow-sm [&_canvas]:max-h-full [&_canvas]:max-w-full [&_iframe]:max-h-full [&_iframe]:max-w-full [&_img]:max-h-full [&_img]:max-w-full [&_object]:max-h-full [&_object]:max-w-full"
       />
-    </motion.section>
+    </section>
   );
 }

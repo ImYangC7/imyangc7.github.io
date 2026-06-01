@@ -10,7 +10,6 @@ const nextConfig: NextConfig = {
     optimizePackageImports: [
       '@heroicons/react',
       'lucide-react',
-      'framer-motion',
     ],
   },
   /* config options here */

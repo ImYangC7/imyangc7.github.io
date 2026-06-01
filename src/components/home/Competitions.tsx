@@ -12,12 +12,9 @@ interface CompetitionsProps {
     title?: string;
 }
 
-function CompetitionList({ items, maxHeight = '200px' }: { items: CompetitionItem[]; maxHeight?: string }) {
+function CompetitionList({ items }: { items: CompetitionItem[] }) {
     return (
-        <div
-            className="overflow-y-auto pr-2 space-y-2"
-            style={{ maxHeight }}
-        >
+        <div className="space-y-2">
             <ul className="list-disc list-outside ml-4 space-y-2">
                 {items.map((item, index) => (
                     <li key={index} className="text-sm text-neutral-700">
@@ -56,16 +53,14 @@ export default function Competitions({ national, provincial, title = 'Competitio
                     <h3 className="text-lg font-semibold text-neutral-800 mb-2">
                         International & National Prizes
                     </h3>
-                    <CompetitionList items={national} maxHeight="220px" />
-                    <p className="text-xs text-neutral-400 mt-1">↕ Scrollable</p>
+                    <CompetitionList items={national} />
                 </div>
 
                 <div>
                     <h3 className="text-lg font-semibold text-neutral-800 mb-2">
                         Regional & Provincial Prizes
                     </h3>
-                    <CompetitionList items={provincial} maxHeight="180px" />
-                    <p className="text-xs text-neutral-400 mt-1">↕ Scrollable</p>
+                    <CompetitionList items={provincial} />
                 </div>
             </div>
         </section>

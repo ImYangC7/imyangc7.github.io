@@ -59,9 +59,6 @@ export function parseBibTeX(bibtexContent: string): Publication[] {
     // Parse selected field (convert string to boolean)
     const selected = tags.selected === 'true' || tags.selected === 'yes';
 
-    // Parse preview field (remove braces if present)
-    const preview = tags.preview?.replace(/[{}]/g, '');
-
     // Create publication object
     const publication: Publication = {
       id: entry.citationKey || tags.id || `pub-${Date.now()}-${index}`,
@@ -87,11 +84,7 @@ export function parseBibTeX(bibtexContent: string): Publication[] {
       abstract: cleanBibTeXString(tags.abstract),
       description: cleanBibTeXString(tags.description || tags.note),
       selected,
-      preview,
       venue: cleanBibTeXString(tags.venue),
-
-      // Store original BibTeX (excluding custom fields)
-      bibtex: reconstructBibTeX(entry, ['selected', 'preview', 'description', 'keywords', 'code', 'month', 'venue']),
     };
 
     // Clean up undefined fields
@@ -280,29 +273,3 @@ function detectResearchArea(title: string, keywords: string[]): ResearchArea {
 
   return 'machine-learning';
 }
-
-function reconstructBibTeX(entry: { entryType: string; citationKey: string; entryTags: Record<string, string> }, excludeFields: string[] = []): string {
-  const { entryType, citationKey, entryTags } = entry;
-
-  let bibtex = `@${entryType}{${citationKey},\n`;
-
-  Object.entries(entryTags).forEach(([key, value]) => {
-    // Skip excluded fields
-    if (!excludeFields.includes(key.toLowerCase())) {
-      let cleanValue = value;
-
-      // Clean author field by removing # and * symbols
-      if (key.toLowerCase() === 'author') {
-        cleanValue = value.replace(/[#*]/g, '');
-      }
-
-      bibtex += `  ${key} = {${cleanValue}},\n`;
-    }
-  });
-
-  // Remove trailing comma and newline
-  bibtex = bibtex.slice(0, -2) + '\n';
-  bibtex += '}';
-
-  return bibtex;
-} 

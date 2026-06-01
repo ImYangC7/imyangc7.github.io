@@ -5,20 +5,17 @@ import Profile from '@/components/home/Profile';
 import About from '@/components/home/About';
 import SelectedPublications from '@/components/home/SelectedPublications';
 import News, { NewsItem } from '@/components/home/News';
-import Awards, { AwardItem } from '@/components/home/Awards';
 import Competitions, { CompetitionItem } from '@/components/home/Competitions';
-import VisitorMap from '@/components/home/VisitorMap';
-import PublicationsList from '@/components/publications/PublicationsList';
 import TextPage from '@/components/pages/TextPage';
 import CardPage from '@/components/pages/CardPage';
 
 import { Publication } from '@/types/publication';
-import { BasePageConfig, PublicationPageConfig, TextPageConfig, CardPageConfig } from '@/types/page';
+import { BasePageConfig, TextPageConfig, CardPageConfig } from '@/types/page';
 
 // Define types for section config
 interface SectionConfig {
   id: string;
-  type: 'markdown' | 'publications' | 'list' | 'awards' | 'competitions';
+  type: 'markdown' | 'publications' | 'list' | 'competitions';
   title?: string;
   source?: string;
   filter?: string;
@@ -26,13 +23,11 @@ interface SectionConfig {
   content?: string;
   publications?: Publication[];
   items?: NewsItem[];
-  awards?: AwardItem[];
   competitions?: { national: CompetitionItem[]; provincial: CompetitionItem[] };
 }
 
 type PageData =
   | { type: 'about', id: string, sections: SectionConfig[] }
-  | { type: 'publication', id: string, config: PublicationPageConfig, publications: Publication[] }
   | { type: 'text', id: string, config: TextPageConfig, content: string }
   | { type: 'card', id: string, config: CardPageConfig };
 
@@ -42,8 +37,6 @@ export default function Home() {
 
   // Always load about page config for profile info
   const aboutConfig = getPageConfig('about');
-  const researchInterests = (aboutConfig as { profile?: { research_interests?: string[] } })?.profile?.research_interests;
-
   // Helper function to process sections (for about page)
   const processSections = (sections: SectionConfig[]) => {
     return sections.map((section: SectionConfig) => {
@@ -69,13 +62,6 @@ export default function Home() {
           return {
             ...section,
             items: newsData?.news || []
-          };
-        }
-        case 'awards': {
-          const awardsData = section.source ? getTomlContent<{ items: AwardItem[] }>(section.source) : null;
-          return {
-            ...section,
-            awards: awardsData?.items || []
           };
         }
         case 'competitions': {
@@ -111,15 +97,6 @@ export default function Home() {
             type: 'about',
             id: item.target,
             sections: processSections((rawConfig as { sections: SectionConfig[] }).sections || [])
-          } as PageData;
-        } else if (pageConfig.type === 'publication') {
-          const pubConfig = pageConfig as PublicationPageConfig;
-          const bibtex = getBibtexContent(pubConfig.source);
-          return {
-            type: 'publication',
-            id: item.target,
-            config: pubConfig,
-            publications: parseBibTeX(bibtex)
           } as PageData;
         } else if (pageConfig.type === 'text') {
           const textConfig = pageConfig as TextPageConfig;
@@ -159,8 +136,6 @@ export default function Home() {
           <Profile
             author={config.author}
             social={config.social}
-            features={config.features}
-            researchInterests={researchInterests}
           />
         </div>
 
@@ -184,7 +159,6 @@ export default function Home() {
                         key={section.id}
                         publications={section.publications || []}
                         title={section.title}
-                        enableOnePageMode={true}
                       />
                     );
                   case 'list':
@@ -192,14 +166,6 @@ export default function Home() {
                       <News
                         key={section.id}
                         items={section.items || []}
-                        title={section.title}
-                      />
-                    );
-                  case 'awards':
-                    return (
-                      <Awards
-                        key={section.id}
-                        items={section.awards || []}
                         title={section.title}
                       />
                     );
@@ -216,13 +182,6 @@ export default function Home() {
                     return null;
                 }
               })}
-              {page.type === 'publication' && (
-                <PublicationsList
-                  config={page.config}
-                  publications={page.publications}
-                  embedded={true}
-                />
-              )}
               {page.type === 'text' && (
                 <TextPage
                   config={page.config}
@@ -240,11 +199,6 @@ export default function Home() {
           ))}
         </div>
       </div>
-
-      <div className="mt-12">
-        <VisitorMap />
-      </div>
     </div>
   );
 }
-

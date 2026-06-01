@@ -1,97 +1,101 @@
-import Link from 'next/link';
-import Image from 'next/image';
 import { Publication } from '@/types/publication';
 
 interface SelectedPublicationsProps {
     publications: Publication[];
     title?: string;
-    enableOnePageMode?: boolean;
 }
 
-export default function SelectedPublications({ publications, title = 'Selected Publications', enableOnePageMode = false }: SelectedPublicationsProps) {
+const MAX_VISIBLE_AUTHORS = 6;
+const CATEGORY_ORDER = [
+    'Tool-Using Agents',
+    'Agentic Systems and Environments',
+    'Multimodal and Visual Reasoning',
+    'Healthcare and Biomedical AI',
+    'Foundations and Representation Learning',
+    'Code and Repository Intelligence',
+    'Other',
+];
+
+function compactAuthors(authors: Publication['authors']) {
+    if (authors.length <= MAX_VISIBLE_AUTHORS) {
+        return authors;
+    }
+
+    return authors.slice(0, MAX_VISIBLE_AUTHORS);
+}
+
+function getCategory(publication: Publication) {
+    return publication.tags[0] || 'Other';
+}
+
+export default function SelectedPublications({ publications, title = 'Selected Publications' }: SelectedPublicationsProps) {
+    const groupedPublications = publications.reduce<Record<string, Publication[]>>((groups, publication) => {
+        const category = getCategory(publication);
+        groups[category] = groups[category] || [];
+        groups[category].push(publication);
+        return groups;
+    }, {});
+
+    const orderedGroups = Object.entries(groupedPublications).sort(([categoryA], [categoryB]) => {
+        const indexA = CATEGORY_ORDER.indexOf(categoryA);
+        const indexB = CATEGORY_ORDER.indexOf(categoryB);
+        return (indexA === -1 ? CATEGORY_ORDER.length : indexA) - (indexB === -1 ? CATEGORY_ORDER.length : indexB);
+    });
+
     return (
         <section className="fade-in-up-d1">
-            <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl font-serif font-bold text-primary">{title}</h2>
-                <Link
-                    href={enableOnePageMode ? "/#publications" : "/publications"}
-                    prefetch={false}
-                    className="text-accent hover:text-accent-dark text-sm font-medium transition-all duration-200 rounded hover:bg-accent/10 hover:shadow-sm"
-                >
-                    View All →
-                </Link>
-            </div>
-            <div className="space-y-4">
-                {publications.map((pub, index) => (
-                    <div
-                        key={pub.id}
-                        className="fade-in-up bg-neutral-50 p-4 rounded-lg shadow-sm border border-neutral-200 hover:shadow-lg transition-all duration-200 hover:scale-[1.02]"
-                        style={{ animationDelay: `${Math.min(0.04 * index, 0.16)}s` }}
-                    >
-                        <div className="flex flex-col sm:flex-row gap-4">
-                            {pub.preview && (
-                                <div className="w-full sm:w-44 flex-shrink-0">
-                                    <div className="relative p-1 rounded-lg bg-white shadow-md hover:shadow-xl transition-shadow duration-300 ring-1 ring-neutral-200">
-                                        {pub.venue && (
-                                            <span
-                                                className="absolute top-0 left-0 z-10 px-1.5 py-0.5 text-[10px] font-bold text-white bg-blue-900 rounded-br-md shadow-md"
-                                                style={{ fontFamily: 'Arial, sans-serif' }}
-                                            >
-                                                {pub.venue}
-                                            </span>
-                                        )}
-                                        <Image
-                                            src={`/papers/${pub.preview}`}
-                                            alt={pub.title}
-                                            width={200}
-                                            height={150}
-                                            loading="lazy"
-                                            sizes="(min-width: 640px) 200px, 100vw"
-                                            className="w-full h-auto rounded hover:scale-105 transition-transform duration-300"
-                                        />
-                                    </div>
-                                </div>
-                            )}
-                            <div className="flex-grow">
-                                <h3 className="font-semibold text-primary mb-2 leading-tight">
-                                    {pub.doi || pub.url ? (
-                                        <a
-                                            href={pub.doi ? `https://doi.org/${pub.doi}` : pub.url}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="hover:text-accent transition-colors duration-200"
-                                        >
-                                            {pub.title}
-                                        </a>
-                                    ) : (
-                                        pub.title
-                                    )}
-                                </h3>
-                                <p className="text-sm text-neutral-600 mb-1">
-                                    {pub.authors.map((author, idx) => (
-                                        <span key={idx}>
-                                            <span className={`${author.isHighlighted ? 'font-semibold text-accent' : ''} ${author.isCoAuthor ? `underline underline-offset-4 ${author.isHighlighted ? 'decoration-accent' : 'decoration-neutral-400'}` : ''}`}>
-                                                {author.name}
-                                            </span>
-                                            {author.isCorresponding && (
-                                                <sup className={`ml-0 ${author.isHighlighted ? 'text-accent' : 'text-neutral-600 '}`}>†</sup>
+            <h2 className="text-2xl font-serif font-bold text-primary mb-5">{title}</h2>
+            <div className="space-y-5">
+                {orderedGroups.map(([category, categoryPublications]) => {
+                    return (
+                        <div key={category} className="space-y-2">
+                            <h3 className="text-base font-serif font-semibold text-primary">{category}</h3>
+                            <ul className="ml-4 space-y-3 border-l border-neutral-200 pl-4">
+                                {categoryPublications.map((pub, index) => (
+                                    <li
+                                        key={pub.id}
+                                        className="fade-in-up leading-relaxed"
+                                        style={{ animationDelay: `${Math.min(0.04 * index, 0.16)}s` }}
+                                    >
+                                        <h4 className="inline text-[0.95rem] font-semibold text-primary leading-snug">
+                                            {pub.doi || pub.url ? (
+                                                <a
+                                                    href={pub.doi ? `https://doi.org/${pub.doi}` : pub.url}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="hover:text-accent transition-colors duration-200 underline decoration-neutral-300 underline-offset-4 hover:decoration-accent"
+                                                >
+                                                    {pub.title}
+                                                </a>
+                                            ) : (
+                                                pub.title
                                             )}
-                                            {idx < pub.authors.length - 1 && ', '}
-                                        </span>
-                                    ))}
-                                </p>
-                                <p className="text-sm text-neutral-600 mb-2">
-                                    {pub.journal || pub.conference}, {pub.year}
-                                </p>
-                                {pub.description && (
-                                    <p className="text-sm text-neutral-500 line-clamp-2">
-                                        {pub.description}
-                                    </p>
-                                )}
-                            </div>
+                                        </h4>
+                                        <p className="mt-1 text-sm text-neutral-600">
+                                            {compactAuthors(pub.authors).map((author, idx, visibleAuthors) => (
+                                                <span key={idx}>
+                                                    <span className={`${author.isHighlighted ? 'font-semibold text-accent' : ''} ${author.isCoAuthor ? `underline underline-offset-4 ${author.isHighlighted ? 'decoration-accent' : 'decoration-neutral-400'}` : ''}`}>
+                                                        {author.name}
+                                                    </span>
+                                                    {author.isCorresponding && (
+                                                        <sup className={`ml-0 ${author.isHighlighted ? 'text-accent' : 'text-neutral-600'}`}>†</sup>
+                                                    )}
+                                                    {idx < visibleAuthors.length - 1 && ', '}
+                                                </span>
+                                            ))}
+                                            {pub.authors.length > MAX_VISIBLE_AUTHORS && (
+                                                <span>, et al.</span>
+                                            )}
+                                        </p>
+                                        <p className="text-sm text-neutral-600">
+                                            {[pub.venue || pub.journal || pub.conference, pub.year].filter(Boolean).join(' · ')}
+                                        </p>
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
         </section>
     );
