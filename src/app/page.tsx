@@ -4,7 +4,6 @@ import { parseBibTeX } from '@/lib/bibtexParser';
 import Profile from '@/components/home/Profile';
 import About from '@/components/home/About';
 import SelectedPublications from '@/components/home/SelectedPublications';
-import News, { NewsItem } from '@/components/home/News';
 import Competitions, { CompetitionItem } from '@/components/home/Competitions';
 import TextPage from '@/components/pages/TextPage';
 import CardPage from '@/components/pages/CardPage';
@@ -15,14 +14,13 @@ import { BasePageConfig, TextPageConfig, CardPageConfig } from '@/types/page';
 // Define types for section config
 interface SectionConfig {
   id: string;
-  type: 'markdown' | 'publications' | 'list' | 'competitions';
+  type: 'markdown' | 'publications' | 'competitions';
   title?: string;
   source?: string;
   filter?: string;
   limit?: number;
   content?: string;
   publications?: Publication[];
-  items?: NewsItem[];
   competitions?: { national: CompetitionItem[]; provincial: CompetitionItem[] };
 }
 
@@ -55,13 +53,6 @@ export default function Home() {
           return {
             ...section,
             publications: section.limit ? filteredPubs.slice(0, section.limit) : filteredPubs
-          };
-        }
-        case 'list': {
-          const newsData = section.source ? getTomlContent<{ news: NewsItem[] }>(section.source) : null;
-          return {
-            ...section,
-            items: newsData?.news || []
           };
         }
         case 'competitions': {
@@ -158,14 +149,6 @@ export default function Home() {
                       <SelectedPublications
                         key={section.id}
                         publications={section.publications || []}
-                        title={section.title}
-                      />
-                    );
-                  case 'list':
-                    return (
-                      <News
-                        key={section.id}
-                        items={section.items || []}
                         title={section.title}
                       />
                     );
