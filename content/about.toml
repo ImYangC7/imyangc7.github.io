@@ -17,18 +17,11 @@ title = "About"
 [[sections]]
 id = "featured_publications"
 type = "publications"
-title = "Selected Publications"
+title = "Selected work"
 filter = "selected"
-
-[[sections]]
-id = "news"
-type = "list"
-title = "News"
-source = "news.toml"
 
 [[sections]]
 id = "competitions"
 type = "competitions"
 title = "Competitions"
 source = "competitions.toml"
-

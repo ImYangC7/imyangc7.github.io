@@ -4,4 +4,4 @@ From May 2026, I work as a Research Intern (青云人才计划) at [Hunyuan Grou
 
 I am seeking PhD positions for 2027 Fall and warmly welcome any research internship. Please feel free to contact me!
 
-My current research focuses on agentic systems and environment construction.
+I study agents.
