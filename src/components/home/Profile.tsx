@@ -10,7 +10,6 @@ import {
 import { MapPinIcon as MapPinSolidIcon, EnvelopeIcon as EnvelopeSolidIcon } from '@heroicons/react/24/solid';
 import { Github, Linkedin, Pin } from 'lucide-react';
 import { SiteConfig } from '@/lib/config';
-import VisitorMap from '@/components/home/VisitorMap';
 
 // Custom ORCID icon component
 const OrcidIcon = ({ className }: { className?: string }) => (
@@ -333,8 +332,6 @@ export default function Profile({ author, social }: ProfileProps) {
                     </a>
                 </div>
             )}
-
-            <VisitorMap />
 
         </div>
     );
