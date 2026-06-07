@@ -22,11 +22,8 @@ export interface SiteConfig {
         location_url?: string;
         location_details?: string[];
         google_scholar?: string;
-        orcid?: string;
         github?: string;
         linkedin?: string;
-        xiaohongshu?: string;
-        wechat?: string;
         [key: string]: string | string[] | undefined;
     };
     features: {

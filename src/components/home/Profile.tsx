@@ -11,42 +11,6 @@ import { MapPinIcon as MapPinSolidIcon, EnvelopeIcon as EnvelopeSolidIcon } from
 import { Github, Linkedin, Pin } from 'lucide-react';
 import { SiteConfig } from '@/lib/config';
 
-// Custom ORCID icon component
-const OrcidIcon = ({ className }: { className?: string }) => (
-    <svg
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        className={className}
-        xmlns="http://www.w3.org/2000/svg"
-    >
-        <path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zM7.369 4.378c.525 0 .947.431.947.947s-.422.947-.947.947a.95.95 0 0 1-.947-.947c0-.525.422-.947.947-.947zm-.722 3.038h1.444v10.041H6.647V7.416zm3.562 0h3.9c3.712 0 5.344 2.653 5.344 5.025 0 2.578-2.016 5.025-5.325 5.025h-3.919V7.416zm1.444 1.303v7.444h2.297c3.272 0 4.022-2.484 4.022-3.722 0-2.016-1.284-3.722-4.097-3.722h-2.222z" />
-    </svg>
-);
-
-// Custom Xiaohongshu (小红书) icon component
-const XiaohongshuIcon = ({ className }: { className?: string }) => (
-    <svg
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        className={className}
-        xmlns="http://www.w3.org/2000/svg"
-    >
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 14.19c-.18.3-.52.46-.87.42l-2.68-.35-1.42 2.39c-.18.3-.52.46-.87.42-.35-.05-.63-.3-.72-.64l-.73-2.66-2.68-.35c-.35-.05-.63-.3-.72-.64-.09-.34.04-.7.33-.91l2.17-1.57-.73-2.66c-.09-.34.04-.7.33-.91.29-.21.67-.21.96 0l2.17 1.57 2.17-1.57c.29-.21.67-.21.96 0 .29.21.42.57.33.91l-.73 2.66 2.17 1.57c.29.21.42.57.33.91z"/>
-    </svg>
-);
-
-// Custom WeChat icon component
-const WechatIcon = ({ className }: { className?: string }) => (
-    <svg
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        className={className}
-        xmlns="http://www.w3.org/2000/svg"
-    >
-        <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-6.656-6.088V8.89c-.135-.01-.269-.03-.407-.03zm-2.53 3.274c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/>
-    </svg>
-);
-
 interface ProfileProps {
     author: SiteConfig['author'];
     social: SiteConfig['social'];
@@ -78,11 +42,6 @@ export default function Profile({ author, social }: ProfileProps) {
             href: social.google_scholar,
             icon: AcademicCapIcon,
         }] : []),
-        ...(social.orcid ? [{
-            name: 'ORCID',
-            href: social.orcid,
-            icon: OrcidIcon,
-        }] : []),
         ...(social.github ? [{
             name: 'GitHub',
             href: social.github,
@@ -92,17 +51,6 @@ export default function Profile({ author, social }: ProfileProps) {
             name: 'LinkedIn',
             href: social.linkedin,
             icon: Linkedin,
-        }] : []),
-        ...(social.xiaohongshu ? [{
-            name: 'Xiaohongshu',
-            href: social.xiaohongshu,
-            icon: XiaohongshuIcon,
-            customIcon: '/soical_logo/xiaohongshu.jpg',
-        }] : []),
-        ...(social.wechat ? [{
-            name: 'WeChat',
-            href: social.wechat,
-            icon: WechatIcon,
         }] : []),
     ];
 
@@ -295,16 +243,7 @@ export default function Profile({ author, social }: ProfileProps) {
                             className="p-1.5 text-neutral-600 hover:text-accent transition-colors duration-200"
                             aria-label={link.name}
                         >
-                            {link.customIcon ? (
-                                // eslint-disable-next-line @next/next/no-img-element
-                                <img
-                                    src={link.customIcon}
-                                    alt={link.name}
-                                    className="h-7 w-7 rounded-sm object-cover"
-                                />
-                            ) : (
-                                <IconComponent className="h-7 w-7" />
-                            )}
+                            <IconComponent className="h-7 w-7" />
                         </a>
                     );
                 })}

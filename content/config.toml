@@ -16,10 +16,7 @@ avatar = "/yc.jpg"
 
 email = "23320214@hdu.edu.cn"
 google_scholar = "https://scholar.google.com/citations?user=y7xaiIgAAAAJ&hl=en"
-orcid = "https://orcid.org/0009-0009-0947-656X"
 github = "https://github.com/ImYangC7"
-xiaohongshu = "https://www.xiaohongshu.com/user/profile/6554427a0000000008001276" 
-wechat = "https://raw.githubusercontent.com/ImYangC7/Repo-recorder/main/generated/wechat_yc.png"  
 
 [features]
 # Display all subpages on a single page
