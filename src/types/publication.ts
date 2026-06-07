@@ -3,7 +3,6 @@ export interface Author {
   isMainAuthor?: boolean;
   affiliation?: string;
   email?: string;
-  orcid?: string;
   isHighlighted?: boolean;
   isCorresponding?: boolean;
   isCoAuthor?: boolean;
