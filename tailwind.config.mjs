@@ -12,8 +12,20 @@ export default {
     extend: {
       fontFamily: {
         sans: [
-          'Inter',
-          ...defaultTheme.fontFamily.sans,
+          'Droid Serif',
+          'Songti SC',
+          'Noto Serif CJK SC',
+          'Source Han Serif SC',
+          'SimSun',
+          ...defaultTheme.fontFamily.serif,
+        ],
+        serif: [
+          'Droid Serif',
+          'Songti SC',
+          'Noto Serif CJK SC',
+          'Source Han Serif SC',
+          'SimSun',
+          ...defaultTheme.fontFamily.serif,
         ],
       },
       colors: {
@@ -45,4 +57,4 @@ export default {
     },
   },
   plugins: [],
-}; 
+};

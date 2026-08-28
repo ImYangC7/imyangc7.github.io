@@ -1,5 +1,38 @@
 @import "tailwindcss";
 
+/* Self-hosted Droid Serif: Apache License 2.0; see public/fonts/droid-serif/. */
+@font-face {
+  font-family: 'Droid Serif';
+  src: url('/fonts/droid-serif/DroidSerif-Regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Droid Serif';
+  src: url('/fonts/droid-serif/DroidSerif-Italic.ttf') format('truetype');
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Droid Serif';
+  src: url('/fonts/droid-serif/DroidSerif-Bold.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Droid Serif';
+  src: url('/fonts/droid-serif/DroidSerif-BoldItalic.ttf') format('truetype');
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+}
+
 /* Light theme only */
 :root {
   /* Light theme colors */
@@ -73,8 +106,8 @@
   --color-glass-shadow: var(--glass-shadow);
   
   /* Typography */
-  --font-sans: 'Times New Roman', Times, Georgia, serif;
-  --font-serif: 'Times New Roman', Times, Georgia, serif;
+  --font-sans: 'Droid Serif', 'Songti SC', 'Noto Serif CJK SC', 'Source Han Serif SC', SimSun, Georgia, 'Times New Roman', serif;
+  --font-serif: 'Droid Serif', 'Songti SC', 'Noto Serif CJK SC', 'Source Han Serif SC', SimSun, Georgia, 'Times New Roman', serif;
   --font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
   
   /* Font sizes */

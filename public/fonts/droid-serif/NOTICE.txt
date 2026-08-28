@@ -1,0 +1,15 @@
+Droid Serif font family
+
+Digitized data copyright (c) 2007, Google Corporation.
+Font software supplied by Ascender Corporation.
+Droid is a trademark of Google and may be registered in certain jurisdictions.
+
+The bundled font files are unmodified copies of:
+
+- DroidSerif-Regular.ttf
+- DroidSerif-Italic.ttf
+- DroidSerif-Bold.ttf
+- DroidSerif-BoldItalic.ttf
+
+The font metadata states that the files are licensed under the Apache License,
+Version 2.0. See LICENSE.txt in this directory.

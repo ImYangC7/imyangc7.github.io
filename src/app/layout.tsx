@@ -40,6 +40,20 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <head>
         <link rel="icon" href={config.site.favicon} type="image/png" />
+        <link
+          rel="preload"
+          href="/fonts/droid-serif/DroidSerif-Regular.ttf"
+          as="font"
+          type="font/ttf"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/droid-serif/DroidSerif-Bold.ttf"
+          as="font"
+          type="font/ttf"
+          crossOrigin="anonymous"
+        />
       </head>
       <body className="font-sans antialiased">
         <Navigation
