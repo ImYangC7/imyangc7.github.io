@@ -44,7 +44,7 @@ export default function SelectedPublications({ publications, title = 'Selected P
 
     return (
         <section className="fade-in-up-d1">
-            <h2 className="text-2xl font-serif font-bold text-primary mb-5">{title}</h2>
+            <h2 className="text-2xl font-serif italic font-bold text-primary mb-5">{title}</h2>
             <div className="space-y-5">
                 {orderedGroups.map(([category, categoryPublications]) => {
                     return (

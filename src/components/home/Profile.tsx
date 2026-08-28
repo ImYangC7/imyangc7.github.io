@@ -70,7 +70,7 @@ export default function Profile({ author, social }: ProfileProps) {
 
             {/* Name and Title */}
             <div className="text-center mb-4">
-                <h1 className="text-3xl font-serif font-bold text-primary mb-2">
+                <h1 className="text-3xl font-serif italic font-bold text-primary mb-2">
                     {author.name}
                 </h1>
                 <p className="text-lg text-accent font-medium mb-1">

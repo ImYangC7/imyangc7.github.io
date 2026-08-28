@@ -8,7 +8,7 @@ interface AboutProps {
 export default function About({ content, title = 'About' }: AboutProps) {
     return (
         <section className="fade-in-up-d1">
-            <h2 className="text-2xl font-serif font-bold text-primary mb-4">{title}</h2>
+            <h2 className="text-2xl font-serif italic font-bold text-primary mb-4">{title}</h2>
             <div className="text-neutral-700 leading-relaxed">
                 <ReactMarkdown
                     components={{
