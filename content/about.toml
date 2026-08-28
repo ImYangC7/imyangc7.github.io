@@ -12,9 +12,3 @@ id = "featured_publications"
 type = "publications"
 title = "Selected work"
 filter = "selected"
-
-[[sections]]
-id = "competitions"
-type = "competitions"
-title = "Competitions"
-source = "competitions.toml"

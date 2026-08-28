@@ -1,10 +1,9 @@
 import { getConfig } from '@/lib/config';
-import { getMarkdownContent, getBibtexContent, getTomlContent, getPageConfig } from '@/lib/content';
+import { getMarkdownContent, getBibtexContent, getPageConfig } from '@/lib/content';
 import { parseBibTeX } from '@/lib/bibtexParser';
 import Profile from '@/components/home/Profile';
 import About from '@/components/home/About';
 import SelectedPublications from '@/components/home/SelectedPublications';
-import Competitions, { CompetitionItem } from '@/components/home/Competitions';
 import TextPage from '@/components/pages/TextPage';
 import CardPage from '@/components/pages/CardPage';
 
@@ -14,14 +13,13 @@ import { BasePageConfig, TextPageConfig, CardPageConfig } from '@/types/page';
 // Define types for section config
 interface SectionConfig {
   id: string;
-  type: 'markdown' | 'publications' | 'competitions';
+  type: 'markdown' | 'publications';
   title?: string;
   source?: string;
   filter?: string;
   limit?: number;
   content?: string;
   publications?: Publication[];
-  competitions?: { national: CompetitionItem[]; provincial: CompetitionItem[] };
 }
 
 type PageData =
@@ -53,16 +51,6 @@ export default function Home() {
           return {
             ...section,
             publications: section.limit ? filteredPubs.slice(0, section.limit) : filteredPubs
-          };
-        }
-        case 'competitions': {
-          const competitionsData = section.source ? getTomlContent<{ national: CompetitionItem[]; provincial: CompetitionItem[] }>(section.source) : null;
-          return {
-            ...section,
-            competitions: {
-              national: competitionsData?.national || [],
-              provincial: competitionsData?.provincial || []
-            }
           };
         }
         default:
@@ -149,15 +137,6 @@ export default function Home() {
                       <SelectedPublications
                         key={section.id}
                         publications={section.publications || []}
-                        title={section.title}
-                      />
-                    );
-                  case 'competitions':
-                    return (
-                      <Competitions
-                        key={section.id}
-                        national={section.competitions?.national || []}
-                        provincial={section.competitions?.provincial || []}
                         title={section.title}
                       />
                     );
