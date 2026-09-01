@@ -9,10 +9,10 @@ const MAX_VISIBLE_AUTHORS = 6;
 const CATEGORY_ORDER = [
     'Tool-Using Agents',
     'Agentic Systems and Environments',
+    'Code and Repository Intelligence',
     'Multimodal and Visual Reasoning',
     'Healthcare and Biomedical AI',
     'Foundations and Representation Learning',
-    'Code and Repository Intelligence',
     'Other',
 ];
 
