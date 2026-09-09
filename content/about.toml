@@ -12,3 +12,9 @@ id = "featured_publications"
 type = "publications"
 title = "Selected work"
 filter = "selected"
+
+[[sections]]
+id = "working_experience"
+type = "markdown"
+source = "working-experience.md"
+title = "Work Experience"
