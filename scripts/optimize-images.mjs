@@ -65,7 +65,7 @@ async function run() {
     }
   }
   console.log('-> avatar');
-  await processJpg('yc.jpg', { maxWidth: 512, quality: 86 });
+  await processJpg('yc-go-kart-avatar.jpg', { maxWidth: 1024, quality: 90 });
   console.log('-> social logos');
   for (const f of await readdir(path.join(ROOT, 'soical_logo'))) {
     if (/\.(jpe?g)$/i.test(f)) {
