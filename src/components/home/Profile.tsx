@@ -68,17 +68,11 @@ export default function Profile({ author, social }: ProfileProps) {
                 />
             </div>
 
-            {/* Name and Title */}
+            {/* Name */}
             <div className="text-center mb-4">
                 <h1 className="text-3xl font-serif italic font-bold text-primary mb-2">
                     {author.name}
                 </h1>
-                <p className="text-lg text-accent font-medium mb-1">
-                    {author.title}
-                </p>
-                <p className="text-neutral-600 mb-2">
-                    {author.institution}
-                </p>
             </div>
 
             {/* Signature */}
